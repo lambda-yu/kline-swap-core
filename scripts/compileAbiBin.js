@@ -18,7 +18,7 @@ fs.readdir("./build/contracts", function (err, files) {
         console.error("Could not list the directory.", err);
         process.exit(1);
     }
-    
+
     // Remove old build
     rimraf.sync(BUILD_PATH);
 
@@ -39,11 +39,11 @@ fs.readdir("./build/contracts", function (err, files) {
         const path = './build/contracts/' + file
         let rawdata = fs.readFileSync(path);
         let contract = JSON.parse(rawdata);
-        let { abi, bytecode} = contract;
-        bytecode = bytecode.substring(2);
+        let {abi, bytecode} = contract;
+        // bytecode = bytecode.substring(2);
 
-        if (abi.length === 0) return;
-        fs.writeFileSync(ABI_PATH + basename + ".abi"  , JSON.stringify(abi));
+        if (abi === undefined || abi.length === 0) return;
+        fs.writeFileSync(ABI_PATH + basename + ".abi", JSON.stringify(abi));
         fs.writeFileSync(BIN_PATH + basename + ".bin", bytecode);
     });
 });
